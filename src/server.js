@@ -1,2 +1,6 @@
 const x = 10
-console.log('x')
+//eslint-disable-next-line
+console.log(x)
+function name(params) {
+    return 'hi'
+}
