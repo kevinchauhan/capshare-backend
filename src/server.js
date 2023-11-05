@@ -1,4 +1,2 @@
-console.log("Node init...")
-function name(params) {
-    console.log(first)
-}
+const x = 10
+console.log(x)

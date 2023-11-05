@@ -3,14 +3,19 @@
     "version": "1.0.0",
     "description": "It is a backend service for hackathon project",
     "main": "index.js",
+    "type": "module",
     "scripts": {
         "start": "node src/server.js",
         "format:check": "prettier . --check",
-        "format:fix": "prettier . --write"
+        "format:fix": "prettier . --write",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "eslint": "^8.53.0",
+        "eslint-config-prettier": "^9.0.0",
         "prettier": "3.0.3"
     }
 }
