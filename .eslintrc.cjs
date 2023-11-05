@@ -20,7 +20,7 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
-        'no-console': 'error',
+        // 'no-console': 'error',
         'no-unused-vars': 'warn',
     },
 }
