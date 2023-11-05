@@ -1,6 +1,3 @@
-const x = 10
-//eslint-disable-next-line
-console.log('x')
-function name(params) {
-    return 'hi'
-}
+import { Config } from './config/index.js'
+
+const PORT = Config.PORT
