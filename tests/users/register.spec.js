@@ -71,6 +71,22 @@ describe('POST /auth/register', () => {
             expect(users[0].name).equal(userData.name)
             expect(users[0].email).equal(userData.email)
         })
+
+        it('should return id of created user', async () => {
+            // Arrange
+            const userData = {
+                name: 'kevin',
+                email: 'kevin@gmail.com',
+                password: '123',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            // Assert
+            expect(response.body).to.have.property('id')
+        })
     })
 
     describe('missing fields', () => {})
