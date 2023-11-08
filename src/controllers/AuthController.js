@@ -1,5 +1,6 @@
 export class AuthController {
-    register(req, res) {
-        res.json({ msg: 'registering...' })
+    async register(req, res) {
+        const { name } = req.body
+        res.status(201).json({ msg: 'registering...' })
     }
 }
