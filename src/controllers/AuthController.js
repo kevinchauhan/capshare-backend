@@ -18,7 +18,7 @@ export class AuthController {
                 password,
             })
             this.logger.info('user has been created', { id: user.id })
-            res.status(201).json({ msg: 'registering...', user, id: user._id })
+            res.status(201).json({ msg: 'registering...', user, id: user.id })
         } catch (err) {
             return next(err)
         }
