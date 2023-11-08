@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import app from '../../src/app.js' // Import your Express app
 import mongoose from 'mongoose'
-import userSchema from '../../src/models/userSchema.js'
+import userModel from '../../src/models/userModel.js'
 import connectDb from '../../src/config/dbConnection.js'
 
 chai.use(chaiHttp)
@@ -14,11 +14,11 @@ before(async () => {
 })
 
 beforeEach(async () => {
-    await userSchema.deleteMany({})
+    await userModel.deleteMany({})
 })
 
 after(async () => {
-    await userSchema.deleteMany({})
+    await userModel.deleteMany({})
     mongoose.connection.close()
 })
 
@@ -64,10 +64,12 @@ describe('POST /auth/register', () => {
                 password: '123',
             }
             // Act
-            await userSchema.create(userData)
-            const users = await userSchema.find()
+            await userModel.create(userData)
+            const users = await userModel.find()
             // Assert
             expect(users).length(1)
+            expect(users[0].name).equal(userData.name)
+            expect(users[0].email).equal(userData.email)
         })
     })
 

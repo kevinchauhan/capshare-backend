@@ -5,8 +5,6 @@ const connectDb = async () => {
     const url = Config.DB_URL
     try {
         const connect = await mongoose.connect(url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
             serverSelectionTimeoutMS: 5000,
         })
         const connection = mongoose.connection
