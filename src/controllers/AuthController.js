@@ -1,3 +1,6 @@
+import { validationResult } from 'express-validator'
+import createHttpError from 'http-errors'
+
 export class AuthController {
     constructor(userService, logger) {
         this.userService = userService
@@ -5,6 +8,12 @@ export class AuthController {
     }
 
     async register(req, res, next) {
+        // validation
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+            return res.status(400).json({ errors: result.array() })
+        }
+
         const { name, email, password, studioname } = req.body
         this.logger.debug('new request to register user', {
             name,

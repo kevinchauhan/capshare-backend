@@ -24,7 +24,7 @@ after(async () => {
 })
 
 describe('POST /auth/register', () => {
-    describe('given all fields', () => {
+    describe('-> given all fields', () => {
         it('should return 201 status code', async () => {
             // Arrange
             const userData = {
@@ -112,7 +112,7 @@ describe('POST /auth/register', () => {
             expect(users[0].role).equal(Roles.USER)
         })
 
-        it('should store the hasshed password in the database', async () => {
+        it('should store the hashed password in the database', async () => {
             // Arrange
             const userData = {
                 name: 'kevin',
@@ -154,5 +154,24 @@ describe('POST /auth/register', () => {
         })
     })
 
-    describe('missing fields', () => {})
+    describe('-> missing fields', () => {
+        it('should return 400 status code if email is missing', async () => {
+            // Arrange
+            const userData = {
+                name: 'kevin',
+                email: '',
+                password: '123',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const users = await userModel.find()
+            // Assert
+            expect(response.status).equal(400)
+            expect(users).length(0)
+        })
+    })
 })
