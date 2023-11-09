@@ -131,6 +131,27 @@ describe('POST /auth/register', () => {
             expect(users[0].password).length(60)
             expect(users[0].password).match(/^\$2b\$\d+\$/)
         })
+
+        it('should return 400 status code if email is already exists', async () => {
+            // Arrange
+            const userData = {
+                name: 'abc',
+                email: 'abc@gmail.com',
+                password: '123',
+                studioname: 'photo',
+            }
+            const user = new userModel(userData)
+            await user.save()
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const users = await userModel.find()
+            // Assert
+            expect(response.status).equal(400)
+            expect(users).length(1)
+        })
     })
 
     describe('missing fields', () => {})

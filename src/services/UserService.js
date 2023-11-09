@@ -4,6 +4,12 @@ import bcrypt from 'bcrypt'
 
 export class UserService {
     async create({ name, email, password, studioname }) {
+        const user = await userModel.findOne({ email })
+        if (user) {
+            const error = createHttpError(400, 'email is already exists')
+            throw error
+        }
+
         // Hash password
         const saltRounds = 10
         const hashedPassword = await bcrypt.hash(password, saltRounds)
@@ -22,6 +28,7 @@ export class UserService {
                 500,
                 'Failed to store data in database',
             )
+            console.log(err)
             throw new Error(error)
         }
     }
