@@ -5,7 +5,6 @@ export class AuthController {
     }
 
     async register(req, res, next) {
-        console.log(req.body)
         const { name, email, password, studioname } = req.body
         this.logger.debug('new request to register user', {
             name,

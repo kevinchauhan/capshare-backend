@@ -111,6 +111,26 @@ describe('POST /auth/register', () => {
             expect(users[0]).to.have.property('role')
             expect(users[0].role).equal(Roles.USER)
         })
+
+        it('should store the hasshed password in the database', async () => {
+            // Arrange
+            const userData = {
+                name: 'kevin',
+                email: 'kevin@gmail.com',
+                password: '123',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            // Assert
+            const users = await userModel.find()
+            expect(users[0].password).not.equal(userData.password)
+            expect(users[0].password).length(60)
+            expect(users[0].password).match(/^\$2b\$\d+\$/)
+        })
     })
 
     describe('missing fields', () => {})
