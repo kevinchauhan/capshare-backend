@@ -227,7 +227,6 @@ describe('POST /auth/register', () => {
                 .send(userData)
             const users = await userModel.find()
             // Assert
-            // expect(response.status).equal(400)
             expect(users[0].email).equal('kevin@gmail.com')
         })
         it('should return 400 status code if email is not a valid email', async () => {
@@ -265,6 +264,22 @@ describe('POST /auth/register', () => {
             // Assert
             expect(response.status).equal(400)
             expect(users).length(0)
+        })
+        it('should return an array of errors for field validation', async () => {
+            // Arrange
+            const userData = {
+                name: '  ',
+                email: '',
+                password: '',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            // Assert
+            expect(Array.isArray(response.body.errors)).true
         })
     })
 })
