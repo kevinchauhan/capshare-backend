@@ -30,7 +30,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -47,7 +47,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -64,7 +64,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -81,7 +81,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -98,7 +98,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -117,7 +117,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -137,7 +137,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'abc',
                 email: 'abc@gmail.com',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             const user = new userModel(userData)
@@ -160,7 +160,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: 'kevin',
                 email: '',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -178,7 +178,25 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: '',
                 email: 'kevin@gmail.com',
-                password: '123',
+                password: '12345678',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const users = await userModel.find()
+            // Assert
+            expect(response.status).equal(400)
+            expect(users).length(0)
+        })
+        it('should return 400 status code if password is missing', async () => {
+            // Arrange
+            const userData = {
+                name: 'kevin',
+                email: 'kevin@gmail.com',
+                password: '',
                 studioname: 'photo',
             }
             // Act
@@ -199,7 +217,7 @@ describe('POST /auth/register', () => {
             const userData = {
                 name: ' kevin ',
                 email: ' kevin@gmail.com ',
-                password: '123',
+                password: '12345678',
                 studioname: 'photo',
             }
             // Act
@@ -212,7 +230,25 @@ describe('POST /auth/register', () => {
             // expect(response.status).equal(400)
             expect(users[0].email).equal('kevin@gmail.com')
         })
-        it('should return 40 status code if email is not a valid email', async () => {
+        it('should return 400 status code if email is not a valid email', async () => {
+            // Arrange
+            const userData = {
+                name: ' kevin ',
+                email: ' kevin@gmail.com ',
+                password: '12345678',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const users = await userModel.find()
+            // Assert
+            // expect(response.status).equal(400)
+            expect(users[0].email).equal('kevin@gmail.com')
+        })
+        it('should return 400 status code if password is less than 8 chars', async () => {
             // Arrange
             const userData = {
                 name: ' kevin ',
@@ -227,8 +263,8 @@ describe('POST /auth/register', () => {
                 .send(userData)
             const users = await userModel.find()
             // Assert
-            // expect(response.status).equal(400)
-            expect(users[0].email).equal('kevin@gmail.com')
+            expect(response.status).equal(400)
+            expect(users).length(0)
         })
     })
 })
