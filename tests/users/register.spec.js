@@ -173,13 +173,49 @@ describe('POST /auth/register', () => {
             expect(response.status).equal(400)
             expect(users).length(0)
         })
+        it('should return 400 status code if name is missing', async () => {
+            // Arrange
+            const userData = {
+                name: '',
+                email: 'kevin@gmail.com',
+                password: '123',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const users = await userModel.find()
+            // Assert
+            expect(response.status).equal(400)
+            expect(users).length(0)
+        })
     })
 
     describe('-> fields are not in proper format', () => {
         it('should trim the email field', async () => {
             // Arrange
             const userData = {
-                name: 'kevin',
+                name: ' kevin ',
+                email: ' kevin@gmail.com ',
+                password: '123',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const users = await userModel.find()
+            // Assert
+            // expect(response.status).equal(400)
+            expect(users[0].email).equal('kevin@gmail.com')
+        })
+        it('should return 40 status code if email is not a valid email', async () => {
+            // Arrange
+            const userData = {
+                name: ' kevin ',
                 email: ' kevin@gmail.com ',
                 password: '123',
                 studioname: 'photo',
