@@ -5,7 +5,8 @@ export class AuthController {
     }
 
     async register(req, res, next) {
-        const { name, email, password } = req.body
+        console.log(req.body)
+        const { name, email, password, studioname } = req.body
         this.logger.debug('new request to register user', {
             name,
             email,
@@ -16,6 +17,7 @@ export class AuthController {
                 name,
                 email,
                 password,
+                studioname,
             })
             this.logger.info('user has been created', { id: user.id })
             res.status(201).json({ msg: 'registering...', user, id: user.id })

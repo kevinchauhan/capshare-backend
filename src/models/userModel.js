@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import Roles from '../constants/index.js'
 const Schema = mongoose.Schema
 
 const userSchema = new Schema(
@@ -15,6 +16,17 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: true,
+        },
+        studioname: {
+            type: String,
+        },
+        role: {
+            type: String,
+            default: Roles.USER,
+        },
+        emailVerified: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true },

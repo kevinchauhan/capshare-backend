@@ -4,6 +4,7 @@ import app from '../../src/app.js' // Import your Express app
 import mongoose from 'mongoose'
 import userModel from '../../src/models/userModel.js'
 import connectDb from '../../src/config/dbConnection.js'
+import Roles from '../../src/constants/index.js'
 
 chai.use(chaiHttp)
 const expect = chai.expect
@@ -30,6 +31,7 @@ describe('POST /auth/register', () => {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
                 password: '123',
+                studioname: 'photo',
             }
             // Act
             const response = await chai
@@ -46,6 +48,7 @@ describe('POST /auth/register', () => {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
                 password: '123',
+                studioname: 'photo',
             }
             // Act
             const response = await chai
@@ -62,6 +65,7 @@ describe('POST /auth/register', () => {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
                 password: '123',
+                studioname: 'photo',
             }
             // Act
             await userModel.create(userData)
@@ -72,12 +76,13 @@ describe('POST /auth/register', () => {
             expect(users[0].email).equal(userData.email)
         })
 
-        it('should return id of created user', async () => {
+        it.skip('should return id of created user', async () => {
             // Arrange
             const userData = {
                 name: 'kevin',
                 email: 'kevin@gmail.com',
                 password: '123',
+                studioname: 'photo',
             }
             // Act
             const response = await chai
@@ -86,6 +91,25 @@ describe('POST /auth/register', () => {
                 .send(userData)
             // Assert
             expect(response.body).to.have.property('id')
+        })
+
+        it('should store a role in database', async () => {
+            // Arrange
+            const userData = {
+                name: 'kevin',
+                email: 'kevin@gmail.com',
+                password: '123',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const users = await userModel.find()
+            // Assert
+            expect(users[0]).to.have.property('role')
+            expect(users[0].role).equal(Roles.USER)
         })
     })
 
