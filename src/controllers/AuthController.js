@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator'
-import createHttpError from 'http-errors'
+import jwt from 'jsonwebtoken'
+import { Config } from '../config/index.js'
 
 export class AuthController {
     constructor(userService, logger) {
@@ -28,7 +29,34 @@ export class AuthController {
                 studioname,
             })
             this.logger.info('user has been created', { id: user.id })
-            res.status(201).json({ msg: 'registering...', user, id: user.id })
+
+            const payload = {
+                sub: user.id,
+            }
+            const accessToken = jwt.sign(payload, Config.ACCESS_TOKEN_SECRET, {
+                algorithm: 'HS256',
+                expiresIn: '1h',
+            })
+            const refreshToken = jwt.sign(
+                payload,
+                Config.REFRESH_TOKEN_SECRET,
+                { algorithm: 'HS256', expiresIn: '1y' },
+            )
+
+            res.cookie('accessToken', accessToken, {
+                domain: 'localhost',
+                sameSite: 'strict',
+                maxAge: 1000 * 60 * 60, // 1hr
+                httpOnly: true, // very important
+            })
+            res.cookie('refreshToken', refreshToken, {
+                domain: 'localhost',
+                sameSite: 'strict',
+                maxAge: 1000 * 60 * 60 * 24 * 365, // 1y
+                httpOnly: true, // very important
+            })
+
+            res.status(201).json({ user, id: user.id })
         } catch (err) {
             return next(err)
         }

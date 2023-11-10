@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import userModel from '../../src/models/userModel.js'
 import connectDb from '../../src/config/dbConnection.js'
 import Roles from '../../src/constants/index.js'
+import { isJwt } from '../../src/utils/index.js'
 
 chai.use(chaiHttp)
 const expect = chai.expect
@@ -151,6 +152,38 @@ describe('POST /auth/register', () => {
             // Assert
             expect(response.status).equal(400)
             expect(users).length(1)
+        })
+
+        it('should return the access token and refresh token inside a cookie', async () => {
+            // Arrange
+            const userData = {
+                name: 'abc',
+                email: 'abc@gmail.com',
+                password: '12345678',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            // Assert
+            const cookies = response.headers['set-cookie'] || []
+            let accessToken = null,
+                refreshToken = null
+            cookies.forEach((cookie) => {
+                if (cookie.startsWith('accessToken=')) {
+                    accessToken = cookie.split(';')[0].split('=')[1]
+                }
+
+                if (cookie.startsWith('refreshToken=')) {
+                    refreshToken = cookie.split(';')[0].split('=')[1]
+                }
+            })
+            expect(accessToken).not.null
+            expect(refreshToken).not.null
+            expect(isJwt(accessToken)).true
+            expect(isJwt(refreshToken)).true
         })
     })
 
