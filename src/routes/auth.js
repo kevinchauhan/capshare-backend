@@ -6,6 +6,7 @@ import { UserService } from '../services/UserService.js'
 import { TokenService } from '../services/TokenService.js'
 import loginValidator from '../validators/login-validator.js'
 import { CredentialService } from '../services/CredentialService.js'
+import authenticate from '../middlewares/authenticate.js'
 
 const router = express.Router()
 
@@ -25,6 +26,10 @@ router.post('/register', registerValidator, (req, res, next) =>
 
 router.post('/login', loginValidator, (req, res, next) =>
     authController.login(req, res, next),
+)
+
+router.get('/self', authenticate, (req, res, next) =>
+    authController.self(req, res, next),
 )
 
 export default router

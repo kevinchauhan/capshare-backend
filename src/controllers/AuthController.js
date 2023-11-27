@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator'
 import refreshTokenModel from '../models/refreshTokenModel.js'
 import createHttpError from 'http-errors'
+import mongoose from 'mongoose'
 
 export class AuthController {
     constructor(userService, logger, tokenService, credentialService) {
@@ -137,6 +138,15 @@ export class AuthController {
             res.status(200).json({ id: user.id, msg: 'success..' })
         } catch (err) {
             return next(err)
+        }
+    }
+
+    async self(req, res, next) {
+        try {
+            const user = await this.userService.findById(req.auth.sub)
+            res.json({ id: user.id })
+        } catch (error) {
+            return next(error)
         }
     }
 }
