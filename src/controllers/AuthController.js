@@ -1,7 +1,5 @@
 import { validationResult } from 'express-validator'
-import refreshTokenModel from '../models/refreshTokenModel.js'
 import createHttpError from 'http-errors'
-import mongoose from 'mongoose'
 
 export class AuthController {
     constructor(userService, logger, tokenService, credentialService) {
