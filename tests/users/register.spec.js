@@ -79,7 +79,7 @@ describe('POST /auth/register', () => {
             expect(users[0].email).equal(userData.email)
         })
 
-        it.skip('should return id of created user', async () => {
+        it('should return id of created user', async () => {
             // Arrange
             const userData = {
                 name: 'kevin',

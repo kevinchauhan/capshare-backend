@@ -41,15 +41,10 @@ describe('GET /auth/self', () => {
                 .send(registerUser)
 
             const cookies = registerRes.headers['set-cookie'] || []
-            let accessToken = null,
-                refreshToken = null
+            let accessToken = null
             cookies.forEach((cookie) => {
                 if (cookie.startsWith('accessToken=')) {
                     accessToken = cookie.split(';')[0].split('=')[1]
-                }
-
-                if (cookie.startsWith('refreshToken=')) {
-                    refreshToken = cookie.split(';')[0].split('=')[1]
                 }
             })
             const response = await chai
@@ -75,15 +70,10 @@ describe('GET /auth/self', () => {
                 .send(registerUser)
 
             const cookies = registerRes.headers['set-cookie'] || []
-            let accessToken = null,
-                refreshToken = null
+            let accessToken = null
             cookies.forEach((cookie) => {
                 if (cookie.startsWith('accessToken=')) {
                     accessToken = cookie.split(';')[0].split('=')[1]
-                }
-
-                if (cookie.startsWith('refreshToken=')) {
-                    refreshToken = cookie.split(';')[0].split('=')[1]
                 }
             })
             const response = await chai
@@ -93,6 +83,35 @@ describe('GET /auth/self', () => {
                 .send()
             // Assert
             expect(response.body.id).equal(registerRes.body.id)
+        })
+        it('should return the password field', async () => {
+            // Arrange
+            const registerUser = {
+                name: 'kevin',
+                email: 'kevin@gmail.com',
+                password: '12345678',
+                studioname: 'photo',
+            }
+            // Act
+            const registerRes = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(registerUser)
+
+            const cookies = registerRes.headers['set-cookie'] || []
+            let accessToken = null
+            cookies.forEach((cookie) => {
+                if (cookie.startsWith('accessToken=')) {
+                    accessToken = cookie.split(';')[0].split('=')[1]
+                }
+            })
+            const response = await chai
+                .request(app)
+                .get('/auth/self')
+                .set('Cookie', [`accessToken=${accessToken};`])
+                .send()
+            // Assert
+            expect(response.body.user).not.have.property('password')
         })
     })
 })

@@ -37,6 +37,8 @@ export class UserService {
     }
 
     async findById(id) {
-        return await userModel.findById(id)
+        return await userModel
+            .findById(id)
+            .select('-updatedAt -__v -createdAt -password')
     }
 }
