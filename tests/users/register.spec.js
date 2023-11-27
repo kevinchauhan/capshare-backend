@@ -6,6 +6,7 @@ import userModel from '../../src/models/userModel.js'
 import connectDb from '../../src/config/dbConnection.js'
 import Roles from '../../src/constants/index.js'
 import { isJwt } from '../../src/utils/index.js'
+import refreshTokenModel from '../../src/models/refreshTokenModel.js'
 
 chai.use(chaiHttp)
 const expect = chai.expect
@@ -17,6 +18,7 @@ before(async () => {
 
 beforeEach(async () => {
     await userModel.deleteMany({})
+    await refreshTokenModel.deleteMany({})
 })
 
 after(async () => {
@@ -184,6 +186,27 @@ describe('POST /auth/register', () => {
             expect(refreshToken).not.null
             expect(isJwt(accessToken)).true
             expect(isJwt(refreshToken)).true
+        })
+
+        it('should store the refresh token in the database', async () => {
+            // Arrange
+            const userData = {
+                name: 'abc',
+                email: 'abc@gmail.com',
+                password: '12345678',
+                studioname: 'photo',
+            }
+            // Act
+            const response = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(userData)
+            const refreshTokens = await refreshTokenModel
+                .find()
+                .populate('userId')
+            // Assert
+            expect(refreshTokens).length(1)
+            expect(refreshTokens[0].userId.id).equal(response.body.user._id)
         })
     })
 

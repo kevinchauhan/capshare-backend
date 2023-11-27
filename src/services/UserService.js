@@ -28,7 +28,6 @@ export class UserService {
                 500,
                 'Failed to store data in database',
             )
-            console.log(err)
             throw new Error(error)
         }
     }

@@ -1,11 +1,11 @@
 import { validationResult } from 'express-validator'
-import jwt from 'jsonwebtoken'
-import { Config } from '../config/index.js'
+import refreshTokenModel from '../models/refreshTokenModel.js'
 
 export class AuthController {
-    constructor(userService, logger) {
+    constructor(userService, logger, tokenService) {
         this.userService = userService
         this.logger = logger
+        this.tokenService = tokenService
     }
 
     async register(req, res, next) {
@@ -33,15 +33,20 @@ export class AuthController {
             const payload = {
                 sub: user.id,
             }
-            const accessToken = jwt.sign(payload, Config.ACCESS_TOKEN_SECRET, {
-                algorithm: 'HS256',
-                expiresIn: '1h',
+            const accessToken = this.tokenService.generateAccessToken(payload)
+
+            // persist refresh token
+            const MS_IN_YEAR = 1000 * 60 * 60 * 24 * 365 //1y
+            const newRefreshToken = refreshTokenModel({
+                userId: user.id,
+                expiresAt: new Date(Date.now() + MS_IN_YEAR),
             })
-            const refreshToken = jwt.sign(
-                payload,
-                Config.REFRESH_TOKEN_SECRET,
-                { algorithm: 'HS256', expiresIn: '1y' },
-            )
+            const refreshData = await newRefreshToken.save()
+
+            const refreshToken = this.tokenService.generateRefreshToken({
+                ...payload,
+                id: String(refreshData.id),
+            })
 
             res.cookie('accessToken', accessToken, {
                 domain: 'localhost',
@@ -58,6 +63,7 @@ export class AuthController {
 
             res.status(201).json({ user, id: user.id })
         } catch (err) {
+            console.log(err)
             return next(err)
         }
     }
