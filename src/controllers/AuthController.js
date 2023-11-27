@@ -1,11 +1,13 @@
 import { validationResult } from 'express-validator'
 import refreshTokenModel from '../models/refreshTokenModel.js'
+import createHttpError from 'http-errors'
 
 export class AuthController {
-    constructor(userService, logger, tokenService) {
+    constructor(userService, logger, tokenService, credentialService) {
         this.userService = userService
         this.logger = logger
         this.tokenService = tokenService
+        this.credentialService = credentialService
     }
 
     async register(req, res, next) {
@@ -58,6 +60,81 @@ export class AuthController {
             })
 
             res.status(201).json({ user, id: user.id })
+        } catch (err) {
+            return next(err)
+        }
+    }
+
+    async login(req, res, next) {
+        // validation
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+            return res.status(400).json({ errors: result.array() })
+        }
+
+        const { email, password } = req.body
+        this.logger.debug('login request user', {
+            email,
+            password: '****',
+        })
+
+        // Check if email exists in db
+        // Compare password
+        // Generate Tokens
+        // Add tokens to cookies
+        // Return the response (id)
+
+        try {
+            const user = await this.userService.findByEmail(email)
+            if (!user) {
+                const error = createHttpError(
+                    400,
+                    'Email or password does not match',
+                )
+                return next(error)
+            }
+            const matchPassword = await this.credentialService.comparePassword(
+                password,
+                user.password,
+            )
+            if (!matchPassword) {
+                const error = createHttpError(
+                    400,
+                    'Email or password does not match',
+                )
+                return next(error)
+            }
+
+            const payload = {
+                sub: user.id,
+            }
+            const accessToken = this.tokenService.generateAccessToken(payload)
+
+            // persist refresh token
+            const newRefreshToken =
+                await this.tokenService.persistRefreshToken(user)
+
+            const refreshToken = this.tokenService.generateRefreshToken({
+                ...payload,
+                id: String(newRefreshToken.id),
+            })
+
+            res.cookie('accessToken', accessToken, {
+                domain: 'localhost',
+                sameSite: 'strict',
+                maxAge: 1000 * 60 * 60, // 1hr
+                httpOnly: true, // very important
+            })
+            res.cookie('refreshToken', refreshToken, {
+                domain: 'localhost',
+                sameSite: 'strict',
+                maxAge: 1000 * 60 * 60 * 24 * 365, // 1y
+                httpOnly: true, // very important
+            })
+            this.logger.info('User has been logged in logged in', {
+                id: user.id,
+            })
+            res.status(200).json({ id: user.id, msg: 'success..' })
         } catch (err) {
             return next(err)
         }

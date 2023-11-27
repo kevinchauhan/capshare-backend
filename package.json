@@ -12,7 +12,8 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "prepare": "husky install",
-        "test": "cross-env NODE_ENV=test mocha --require esm './tests/*/*.spec.js'"
+        "test": "cross-env NODE_ENV=test mocha --require esm './tests/*/*.spec.js'",
+        "test:login": "cross-env NODE_ENV=test mocha --require esm './tests/*/login.spec.js'"
     },
     "lint-staged": {
         "*.js": [

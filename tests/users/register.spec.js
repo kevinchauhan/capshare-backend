@@ -62,7 +62,7 @@ describe('POST /auth/register', () => {
             expect(response).to.be.json
         })
 
-        it('should persist the use in the database', async () => {
+        it('should persist the user in the database', async () => {
             // Arrange
             const userData = {
                 name: 'kevin',

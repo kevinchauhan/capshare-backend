@@ -31,4 +31,8 @@ export class UserService {
             throw new Error(error)
         }
     }
+
+    async findByEmail(email) {
+        return await userModel.findOne({ email })
+    }
 }
