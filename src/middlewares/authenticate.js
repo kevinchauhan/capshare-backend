@@ -1,5 +1,6 @@
 import { expressjwt } from 'express-jwt'
 import { Config } from '../config/index.js'
+import createHttpError from 'http-errors'
 
 export default expressjwt({
     secret: Config.ACCESS_TOKEN_SECRET,
@@ -17,7 +18,8 @@ export default expressjwt({
             const { accessToken } = req.cookies
             return accessToken
         } catch (error) {
-            new Error(error)
+            const err = createHttpError(401, error)
+            new Error(err)
         }
     },
 })
