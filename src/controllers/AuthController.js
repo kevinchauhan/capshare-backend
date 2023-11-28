@@ -147,4 +147,23 @@ export class AuthController {
             return next(error)
         }
     }
+
+    async refresh(req, res, next) {
+        try {
+            const payload = {
+                sub: req.auth.sub,
+            }
+            const accessToken = this.tokenService.generateAccessToken(payload)
+            res.cookie('accessToken', accessToken, {
+                domain: 'localhost',
+                sameSite: 'strict',
+                maxAge: 1000 * 60 * 60, // 1hr
+                httpOnly: true, // very important
+            })
+            res.json({ id: req.auth.sub })
+        } catch (error) {
+            this.logger.error(error)
+            return next(error)
+        }
+    }
 }

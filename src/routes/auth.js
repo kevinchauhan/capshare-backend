@@ -7,6 +7,7 @@ import { TokenService } from '../services/TokenService.js'
 import loginValidator from '../validators/login-validator.js'
 import { CredentialService } from '../services/CredentialService.js'
 import authenticate from '../middlewares/authenticate.js'
+import validateRefreshToken from '../middlewares/validateRefreshToken.js'
 
 const router = express.Router()
 
@@ -30,6 +31,10 @@ router.post('/login', loginValidator, (req, res, next) =>
 
 router.get('/self', authenticate, (req, res, next) =>
     authController.self(req, res, next),
+)
+
+router.post('/refresh', validateRefreshToken, (req, res, next) =>
+    authController.refresh(req, res, next),
 )
 
 export default router
