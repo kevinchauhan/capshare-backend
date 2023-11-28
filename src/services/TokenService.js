@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { Config } from '../config/index.js'
 import refreshTokenModel from '../models/refreshTokenModel.js'
+import logger from '../config/logger.js'
 
 export class TokenService {
     generateAccessToken(payload) {
@@ -28,5 +29,10 @@ export class TokenService {
         })
         const newRefreshToken = await refreshToken.save()
         return newRefreshToken
+    }
+
+    async deleteRefreshToken(id) {
+        await refreshTokenModel.deleteOne({ _id: id })
+        logger.info('Refresh token has been deleted', { id })
     }
 }

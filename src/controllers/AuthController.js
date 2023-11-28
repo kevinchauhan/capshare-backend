@@ -166,4 +166,16 @@ export class AuthController {
             return next(error)
         }
     }
+
+    async logout(req, res, next) {
+        try {
+            this.tokenService.deleteRefreshToken(req.auth.id)
+            res.clearCookie('refreshToken')
+            res.clearCookie('accessToken')
+            res.json({})
+        } catch (error) {
+            this.logger.error(error)
+            return next(error)
+        }
+    }
 }
