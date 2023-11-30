@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import connectDb from '../../src/config/dbConnection.js'
 import refreshTokenModel from '../../src/models/refreshTokenModel.js'
 import userModel from '../../src/models/userModel.js'
+import { isJwt } from '../../src/utils/index.js'
 
 chai.use(chaiHttp)
 const expect = chai.expect
@@ -103,6 +104,45 @@ describe('POST /auth/login', () => {
             // Assert
             expect(loginRes).to.have.status(400)
             expect(loginRes.body).to.have.property('errors')
+        })
+        it('should return the access token and refresh token inside a cookie', async () => {
+            // Arrange
+            const registerUser = {
+                name: 'kevin',
+                email: 'kevin@gmail.com',
+                password: '12345678',
+                studioname: 'photo',
+            }
+            const loginUser = {
+                email: 'kevin@gmail.com',
+                password: '12345678',
+            }
+            // Act
+            const registerRes = await chai
+                .request(app)
+                .post('/auth/register')
+                .send(registerUser)
+            const loginRes = await chai
+                .request(app)
+                .post('/auth/login')
+                .send(loginUser)
+            // Assert
+            const cookies = loginRes.headers['set-cookie'] || []
+            let accessToken = null,
+                refreshToken = null
+            cookies.forEach((cookie) => {
+                if (cookie.startsWith('accessToken=')) {
+                    accessToken = cookie.split(';')[0].split('=')[1]
+                }
+
+                if (cookie.startsWith('refreshToken=')) {
+                    refreshToken = cookie.split(';')[0].split('=')[1]
+                }
+            })
+            expect(accessToken).not.null
+            expect(refreshToken).not.null
+            expect(isJwt(accessToken)).true
+            expect(isJwt(refreshToken)).true
         })
     })
 

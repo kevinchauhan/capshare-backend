@@ -169,10 +169,10 @@ export class AuthController {
 
     async logout(req, res, next) {
         try {
-            this.tokenService.deleteRefreshToken(req.auth.id)
+            await this.tokenService.deleteRefreshToken(req.auth.id)
             res.clearCookie('refreshToken')
             res.clearCookie('accessToken')
-            res.json({})
+            res.json({ msg: req.auth.id })
         } catch (error) {
             this.logger.error(error)
             return next(error)
