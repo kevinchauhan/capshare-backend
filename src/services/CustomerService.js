@@ -24,6 +24,9 @@ export class CustomerService {
             .find({ userId: id })
             .select('-updatedAt -__v -createdAt')
     }
+    async removeCustomer(id) {
+        return await customerModel.deleteOne({ _id: id })
+    }
     async updateCustomer(data) {
         const { name, mobile, id } = data
         return await customerModel

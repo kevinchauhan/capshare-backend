@@ -35,6 +35,11 @@ export default class CustomerController {
         }
     }
     async remove(req, res, next) {
+        // validation
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+            return res.status(400).json({ errors: result.array() })
+        }
         try {
             const customers = await this.customerService.removeCustomer(
                 req.body.id,
@@ -45,6 +50,11 @@ export default class CustomerController {
         }
     }
     async update(req, res, next) {
+        // validation
+        const result = validationResult(req)
+        if (!result.isEmpty()) {
+            return res.status(400).json({ errors: result.array() })
+        }
         try {
             const customers = await this.customerService.updateCustomer(
                 req.body,
