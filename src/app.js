@@ -1,6 +1,6 @@
 import express from 'express'
 import errorHandler from './middlewares/errorHandler.js'
-import router from './routes/auth.js'
+import router from './routes/index.js'
 import connectDb from './config/dbConnection.js'
 import cookieParser from 'cookie-parser'
 const app = express()
@@ -12,7 +12,9 @@ app.use(express.json())
 app.use(cookieParser())
 
 // auth routes
-app.use('/auth', router)
+app.use('/auth', router.auth)
+// customer routes
+app.use('/customer', router.customer)
 
 // error handler
 app.use(errorHandler)

@@ -13,6 +13,7 @@
         "lint:fix": "eslint . --fix",
         "prepare": "husky install",
         "test": "cross-env NODE_ENV=test mocha --require esm './tests/*/*.spec.js'",
+        "test:customer": "cross-env NODE_ENV=test mocha --require esm './tests/customers/*.spec.js'",
         "test:user": "cross-env NODE_ENV=test mocha --require esm './tests/*/user.spec.js'",
         "test:login": "cross-env NODE_ENV=xtest mocha --require esm './tests/*/login.spec.js'"
     },
