@@ -56,9 +56,18 @@ export default class CustomerController {
             return res.status(400).json({ errors: result.array() })
         }
         try {
-            const customers = await this.customerService.updateCustomer(
-                req.body,
-            )
+            let { name, mobile, id } = req.body
+            if (name === '') {
+                name = undefined
+            }
+            if (mobile === '') {
+                mobile = undefined
+            }
+            const customers = await this.customerService.updateCustomer({
+                name,
+                mobile,
+                id,
+            })
             res.json({ customers })
         } catch (error) {
             return next(error)
