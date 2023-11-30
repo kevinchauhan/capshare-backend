@@ -15,6 +15,8 @@ app.use(cookieParser())
 app.use('/auth', router.auth)
 // customer routes
 app.use('/customer', router.customer)
+// event routes
+app.use('/event', router.event)
 
 // error handler
 app.use(errorHandler)
