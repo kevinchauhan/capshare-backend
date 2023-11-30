@@ -2,13 +2,14 @@ import express from 'express'
 import CustomerController from '../controllers/CustomerController.js'
 import authenticate from '../middlewares/authenticate.js'
 import { CustomerService } from '../services/CustomerService.js'
+import registerValidator from '../validators/customer/registerValidator.js'
 
 const router = express.Router()
 
 const customerService = new CustomerService()
 const customerController = new CustomerController(customerService)
 
-router.post('/register', authenticate, (req, res, next) =>
+router.post('/register', authenticate, registerValidator, (req, res, next) =>
     customerController.register(req, res, next),
 )
 
