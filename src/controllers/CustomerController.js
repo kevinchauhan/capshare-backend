@@ -27,4 +27,24 @@ export default class CustomerController {
             return next(error)
         }
     }
+    async remove(req, res, next) {
+        try {
+            const customers = await this.customerService.removeCustomer(
+                req.body.id,
+            )
+            res.json({ customers })
+        } catch (error) {
+            return next(error)
+        }
+    }
+    async update(req, res, next) {
+        try {
+            const customers = await this.customerService.updateCustomer(
+                req.body,
+            )
+            res.json({ customers })
+        } catch (error) {
+            return next(error)
+        }
+    }
 }

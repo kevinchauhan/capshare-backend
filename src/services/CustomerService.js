@@ -24,4 +24,10 @@ export class CustomerService {
             .find({ userId: id })
             .select('-updatedAt -__v -createdAt')
     }
+    async updateCustomer(data) {
+        const { name, mobile, id } = data
+        return await customerModel
+            .findByIdAndUpdate(id, { name, mobile }, { new: true })
+            .select('-updatedAt -__v -createdAt')
+    }
 }

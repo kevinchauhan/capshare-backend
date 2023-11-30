@@ -16,4 +16,12 @@ router.get('/', authenticate, (req, res, next) =>
     customerController.find(req, res, next),
 )
 
+router.delete('/', authenticate, (req, res, next) =>
+    customerController.remove(req, res, next),
+)
+
+router.put('/update', authenticate, (req, res, next) =>
+    customerController.update(req, res, next),
+)
+
 export default router
