@@ -11,10 +11,10 @@ const customerSchema = new Schema(
             type: String,
             required: true,
         },
-        // userId: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'User', // Reference to the User model
-        // },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User', // Reference to the User model
+        },
     },
     { timestamps: true },
 )
