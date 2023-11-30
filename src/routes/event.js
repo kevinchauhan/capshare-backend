@@ -15,4 +15,8 @@ router.get('/', authenticate, (req, res, next) =>
     eventController.findAll(req, res, next),
 )
 
+router.delete('/', authenticate, (req, res, next) => {
+    eventController.remove(req, res, next)
+})
+
 export default router

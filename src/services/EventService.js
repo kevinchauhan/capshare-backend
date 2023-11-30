@@ -7,8 +7,12 @@ export class EventService {
         return data
     }
     async findAll(id) {
-        const events = eventModel.find({ userId: id })
-        const data = await events.save()
-        return data
+        const events = await eventModel
+            .find({ userId: id })
+            .select('-updatedAt -__v -createdAt')
+        return events
+    }
+    async removeEvent(id) {
+        return await eventModel.deleteOne({ _id: id })
     }
 }

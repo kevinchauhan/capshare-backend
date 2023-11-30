@@ -27,4 +27,12 @@ export default class EventController {
             return next()
         }
     }
+    async remove(req, res, next) {
+        try {
+            const events = await this.eventService.removeEvent(req.body.id)
+            res.status(200).json(events)
+        } catch (error) {
+            return next()
+        }
+    }
 }
