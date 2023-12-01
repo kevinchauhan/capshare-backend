@@ -13,7 +13,7 @@ export default class EventController {
             res.status(201).json({
                 id: event._id,
                 name: event.name,
-                customerId: event.name,
+                customerId: event.customerId,
             })
         } catch (error) {
             return next()
