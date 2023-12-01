@@ -13,6 +13,7 @@ const {
     DB_PORT,
     DB_NAME,
     DB_URL,
+    APP_URL,
     ACCESS_TOKEN_SECRET,
     REFRESH_TOKEN_SECRET,
 } = process.env
@@ -24,6 +25,7 @@ export const Config = {
     DB_PORT,
     DB_NAME,
     DB_URL,
+    APP_URL,
     ACCESS_TOKEN_SECRET,
     REFRESH_TOKEN_SECRET,
 }

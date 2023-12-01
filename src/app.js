@@ -20,6 +20,8 @@ app.use('/event', router.event)
 app.use('/folder', router.folder)
 // file routes
 app.use('/file', router.file)
+// image route
+app.use('/uploads', express.static('uploads'))
 
 // error handler
 app.use(errorHandler)

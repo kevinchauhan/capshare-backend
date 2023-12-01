@@ -19,13 +19,15 @@ const storage = multer.diskStorage({
 const handleMultiPartData = multer({ storage }).array('logo')
 
 export default class FileController {
-    async register(req, res, next) {
+    constructor(fileService) {
+        this.fileService = fileService
+    }
+    async store(req, res, next) {
         // multipart form data
         handleMultiPartData(req, res, async (err) => {
             if (err) {
                 return next(err)
             }
-            res.status(201).json({ data: req.files })
             // validation
             // const { error } = productSchema.validate(req.body)
             // if (error) {
@@ -37,8 +39,19 @@ export default class FileController {
             //     })
             //     return next(error)
             // }
-
-            // const { name, price, size } = req.body
+            const { id } = req.params
+            const reqFiles = req.files
+            reqFiles.forEach((file) => {
+                file.name = file.fieldname
+                file.folderId = id
+            })
+            const files = await this.fileService.store(reqFiles)
+            res.status(201).json({ files })
         })
+    }
+    async findAll(req, res, next) {
+        const folderId = req.params.folderid
+        const files = await this.fileService.findAll(folderId)
+        res.json({ data: files })
     }
 }

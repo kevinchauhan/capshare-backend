@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { Config } from '../config/index.js'
 const Schema = mongoose.Schema
 
 const fileSchema = new Schema(
@@ -16,6 +17,17 @@ const fileSchema = new Schema(
         },
         path: {
             type: String,
+            required: true,
+            get(path) {
+                return `${Config.APP_URL}/${path.replace(/\\/g, '/')}`
+            },
+        },
+        size: {
+            type: Number,
+        },
+        isSelected: {
+            type: Boolean,
+            default: false,
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -34,7 +46,7 @@ const fileSchema = new Schema(
             ref: 'folder', // Reference to the event model
         },
     },
-    { timestamps: true },
+    { timestamps: true, toJSON: { getters: true } },
 )
 
 export default mongoose.model('file', fileSchema)
