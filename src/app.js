@@ -10,7 +10,6 @@ connectDb()
 
 app.use(express.json())
 app.use(cookieParser())
-
 // auth routes
 app.use('/auth', router.auth)
 // customer routes
@@ -19,6 +18,8 @@ app.use('/customer', router.customer)
 app.use('/event', router.event)
 // folder routes
 app.use('/folder', router.folder)
+// file routes
+app.use('/file', router.file)
 
 // error handler
 app.use(errorHandler)
