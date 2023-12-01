@@ -17,6 +17,8 @@ app.use('/auth', router.auth)
 app.use('/customer', router.customer)
 // event routes
 app.use('/event', router.event)
+// folder routes
+app.use('/folder', router.folder)
 
 // error handler
 app.use(errorHandler)
