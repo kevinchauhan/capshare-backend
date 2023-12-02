@@ -29,7 +29,10 @@ export default class EventController {
     }
     async remove(req, res, next) {
         try {
-            const events = await this.eventService.removeEvent(req.body.id)
+            const events = await this.eventService.removeEvent(
+                req.body.id,
+                req.auth.sub,
+            )
             res.status(200).json(events)
         } catch (error) {
             return next()

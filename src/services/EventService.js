@@ -12,7 +12,7 @@ export class EventService {
             .select('-updatedAt -__v -createdAt')
         return events
     }
-    async removeEvent(id) {
-        return await eventModel.deleteOne({ _id: id })
+    async removeEvent(id, userId) {
+        return await eventModel.deleteOne({ _id: id, userId })
     }
 }
