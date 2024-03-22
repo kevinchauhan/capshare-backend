@@ -14,6 +14,7 @@ const {
     DB_NAME,
     DB_URL,
     APP_URL,
+    CORS_URL,
     ACCESS_TOKEN_SECRET,
     REFRESH_TOKEN_SECRET,
 } = process.env
@@ -26,6 +27,7 @@ export const Config = {
     DB_NAME,
     DB_URL,
     APP_URL,
+    CORS_URL,
     ACCESS_TOKEN_SECRET,
     REFRESH_TOKEN_SECRET,
 }
