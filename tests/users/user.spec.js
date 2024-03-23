@@ -82,7 +82,7 @@ describe('GET /auth/self', () => {
                 .set('Cookie', [`accessToken=${accessToken};`])
                 .send()
             // Assert
-            expect(response.body.id).equal(registerRes.body.id)
+            expect(response.body._id).equal(registerRes.body.id)
         })
         it('should return the password field', async () => {
             // Arrange
@@ -111,7 +111,7 @@ describe('GET /auth/self', () => {
                 .set('Cookie', [`accessToken=${accessToken};`])
                 .send()
             // Assert
-            expect(response.body.user).not.have.property('password')
+            expect(response.body).not.have.property('password')
         })
     })
 })

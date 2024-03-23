@@ -142,7 +142,7 @@ export class AuthController {
     async self(req, res, next) {
         try {
             const user = await this.userService.findById(req.auth.sub)
-            res.json({ user, id: user.id })
+            res.json(user)
         } catch (error) {
             return next(error)
         }
