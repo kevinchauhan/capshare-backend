@@ -29,7 +29,7 @@ export default class CustomerController {
     async find(req, res, next) {
         try {
             const customers = await this.customerService.find(req.auth.sub)
-            res.json({ customers })
+            res.json(customers)
         } catch (error) {
             return next(error)
         }
