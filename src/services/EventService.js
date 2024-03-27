@@ -10,6 +10,10 @@ export class EventService {
         const events = await eventModel
             .find({ userId: id })
             .select('-updatedAt -__v -createdAt')
+            .populate({
+                path: 'customerId',
+                select: '-updatedAt -__v -createdAt',
+            })
         return events
     }
     async removeEvent(id, userId) {
