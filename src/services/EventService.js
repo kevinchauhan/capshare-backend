@@ -16,6 +16,12 @@ export class EventService {
             })
         return events
     }
+    async find(id) {
+        const event = await eventModel
+            .find({ _id: id })
+            .select('-updatedAt -__v -createdAt')
+        return event
+    }
     async removeEvent(id, userId) {
         return await eventModel.deleteOne({ _id: id, userId })
     }

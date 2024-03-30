@@ -27,6 +27,15 @@ export default class EventController {
             return next()
         }
     }
+    async find(req, res, next) {
+        try {
+            const { id } = req.params
+            const event = await this.eventService.find(id)
+            res.status(200).json(event)
+        } catch (error) {
+            return next()
+        }
+    }
     async remove(req, res, next) {
         try {
             const events = await this.eventService.removeEvent(

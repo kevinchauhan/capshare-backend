@@ -15,6 +15,10 @@ router.get('/', authenticate, (req, res, next) =>
     eventController.findAll(req, res, next),
 )
 
+router.get('/:id', authenticate, (req, res, next) =>
+    eventController.find(req, res, next),
+)
+
 router.delete('/', authenticate, (req, res, next) => {
     eventController.remove(req, res, next)
 })
