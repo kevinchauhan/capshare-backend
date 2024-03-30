@@ -16,7 +16,9 @@ export class FileService {
     }
     async findAll(eventId) {
         try {
-            const files = await fileModel.find({ eventId })
+            const files = await fileModel
+                .find({ eventId })
+                .select('-updatedAt -__v -createdAt')
             return files
         } catch (err) {
             const error = createHttpError(
