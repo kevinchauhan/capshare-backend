@@ -18,7 +18,7 @@ export class EventService {
     }
     async find(id) {
         const event = await eventModel
-            .find({ _id: id })
+            .findOne({ _id: id })
             .select('-updatedAt -__v -createdAt')
         return event
     }
