@@ -9,7 +9,7 @@ const fileController = new FileController(fileService)
 router.post('/register/:id', authenticate, (req, res, next) =>
     fileController.store(req, res, next),
 )
-router.get('/:folderid', (req, res, next) =>
+router.get('/:eventid', (req, res, next) =>
     fileController.findAll(req, res, next),
 )
 

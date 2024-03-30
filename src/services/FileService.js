@@ -14,10 +14,9 @@ export class FileService {
             throw new Error(error)
         }
     }
-    async findAll(folderId) {
+    async findAll(eventId) {
         try {
-            const files = await fileModel.find()
-            console.log(files)
+            const files = await fileModel.find({ eventId })
             return files
         } catch (err) {
             const error = createHttpError(

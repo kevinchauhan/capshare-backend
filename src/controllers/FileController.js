@@ -42,16 +42,17 @@ export default class FileController {
             const { id } = req.params
             const reqFiles = req.files
             reqFiles.forEach((file) => {
-                file.name = file.fieldname
-                file.folderId = id
+                file.name = file.filename
+                file.eventId = id
             })
             const files = await this.fileService.store(reqFiles)
             res.status(201).json({ files })
         })
     }
-    async findAll(req, res, next) {
-        const folderId = req.params.folderid
-        const files = await this.fileService.findAll(folderId)
+    async findAll(req, res) {
+        // const folderId = req.params.folderid
+        const eventId = req.params.eventid
+        const files = await this.fileService.findAll(eventId)
         res.json({ data: files })
     }
 }
