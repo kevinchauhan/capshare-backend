@@ -19,7 +19,7 @@ export default expressjwt({
             return accessToken
         } catch (error) {
             const err = createHttpError(401, error)
-            new Error(err)
+            throw err
         }
     },
 })

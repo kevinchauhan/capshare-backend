@@ -16,7 +16,7 @@ export class CustomerService {
                 500,
                 'Failed to store data in database',
             )
-            throw new Error(error)
+            throw error
         }
     }
     async find(id) {
@@ -25,7 +25,8 @@ export class CustomerService {
             .select('-updatedAt -__v -createdAt')
     }
     async removeCustomer(id) {
-        return await customerModel.deleteOne({ _id: id })
+        const query = { _id: id }
+        return await customerModel.deleteOne(query)
     }
     async updateCustomer({ name, mobile, id }) {
         return await customerModel

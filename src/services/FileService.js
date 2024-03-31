@@ -11,7 +11,7 @@ export class FileService {
                 500,
                 'Failed to store data in database',
             )
-            throw new Error(error)
+            throw error
         }
     }
     async findAll(eventId) {
@@ -25,7 +25,7 @@ export class FileService {
                 500,
                 'Failed to store data in database',
             )
-            throw new Error(error)
+            throw error
         }
     }
 }
