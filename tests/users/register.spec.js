@@ -132,7 +132,7 @@ describe('POST /auth/register', () => {
             const users = await userModel.find()
             expect(users[0].password).not.equal(userData.password)
             expect(users[0].password).length(60)
-            expect(users[0].password).match(/^\$2b\$\d+\$/)
+            expect(users[0].password).match(/^\$2[a|b]\$\d+\$/)
         })
 
         it('should return 400 status code if email is already exists', async () => {

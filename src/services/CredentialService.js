@@ -1,6 +1,6 @@
-import bcrypt from 'bcrypt'
+import bcryptjs from 'bcryptjs'
 export class CredentialService {
     async comparePassword(userPassword, hashedPassword) {
-        return await bcrypt.compare(userPassword, hashedPassword)
+        return await bcryptjs.compare(userPassword, hashedPassword)
     }
 }
