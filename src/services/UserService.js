@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors'
 import userModel from '../models/userModel.js'
-import bcrypt from 'bcrypt'
+import bcryptjs from 'bcryptjs'
 
 export class UserService {
     async create({ name, email, password, studioname }) {
@@ -12,7 +12,7 @@ export class UserService {
 
         // Hash password
         const saltRounds = 10
-        const hashedPassword = await bcrypt.hash(password, saltRounds)
+        const hashedPassword = await bcryptjs.hash(password, saltRounds)
 
         try {
             const user = new userModel({
