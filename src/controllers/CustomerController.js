@@ -41,9 +41,9 @@ export default class CustomerController {
             return res.status(400).json({ errors: result.array() })
         }
         try {
-            const customers = await this.customerService.removeCustomer(
-                req.body.id,
-            )
+            const customerId = req.body.id
+            const customers =
+                await this.customerService.removeCustomer(customerId)
             res.json({ customers })
         } catch (error) {
             return next(error)
