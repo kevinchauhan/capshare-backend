@@ -1,12 +1,12 @@
 FROM node:20.9.0-alpine
 
-ENV NODE_ENV=production
+ENV NODE_ENV=dev
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci --ignore-scripts
+RUN npm i --ignore-scripts
 
 COPY . .
 
