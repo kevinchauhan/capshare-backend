@@ -35,7 +35,9 @@ export class EventService {
     }
     async update(eventId, data) {
         try {
-            const files = await fileModel.findByIdAndUpdate(eventId, data)
+            const files = await eventModel.findByIdAndUpdate(eventId, data, {
+                new: true,
+            })
             return files
         } catch (err) {
             const error = createHttpError(
