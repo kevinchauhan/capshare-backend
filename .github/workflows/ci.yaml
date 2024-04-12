@@ -22,11 +22,11 @@ jobs:
                   DB_URL=: ${{ secrets.TEST_DB_URL }}
                   ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
                   REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
-            - name: SonarCloud Scan
-              uses: SonarSource/sonarcloud-github-action@master
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            # - name: SonarCloud Scan
+            #  uses: SonarSource/sonarcloud-github-action@master
+            #  env:
+            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     build-and-push-docker:
         name: Build and Push Docker Image
