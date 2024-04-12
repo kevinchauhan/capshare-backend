@@ -55,4 +55,14 @@ export default class FileController {
         const files = await this.fileService.findAll(eventId)
         res.json({ data: files })
     }
+    async update(req, res) {
+        // const folderId = req.params.folderid
+        const { fileid } = req.params
+        const { selected } = req.query
+        const data = {
+            isSelected: selected,
+        }
+        const files = await this.fileService.update(fileid, data)
+        res.json({ data: files })
+    }
 }

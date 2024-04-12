@@ -12,6 +12,9 @@ router.post('/register/:id', authenticate, (req, res, next) =>
 router.get('/:eventid', (req, res, next) =>
     fileController.findAll(req, res, next),
 )
+router.get('/select/:fileid', (req, res, next) =>
+    fileController.update(req, res, next),
+)
 
 // router.delete('/', authenticate, (req, res, next) => {
 //     folderController.remove(req, res, next)

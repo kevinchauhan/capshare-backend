@@ -28,4 +28,16 @@ export class FileService {
             throw error
         }
     }
+    async update(fileId, data) {
+        try {
+            const files = await fileModel.findByIdAndUpdate(fileId, data)
+            return files
+        } catch (err) {
+            const error = createHttpError(
+                500,
+                'Failed to update data in database',
+            )
+            throw error
+        }
+    }
 }

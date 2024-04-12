@@ -31,6 +31,8 @@ app.use('/event', router.event)
 app.use('/folder', router.folder)
 // file routes
 app.use('/file', router.file)
+// client routes
+app.use('/client', router.client)
 // image route
 app.use('/uploads', express.static('uploads'))
 
