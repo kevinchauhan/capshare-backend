@@ -19,6 +19,11 @@ const eventSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        accessCode: {
+            type: String,
+            unique: true,
+            required: true,
+        },
     },
     { timestamps: true },
 )

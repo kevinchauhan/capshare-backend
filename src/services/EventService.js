@@ -1,8 +1,8 @@
 import eventModel from '../models/eventModel.js'
 
 export class EventService {
-    async create({ name, customerId, userId }) {
-        const event = eventModel({ name, customerId, userId })
+    async create({ name, customerId, userId, accessCode }) {
+        const event = eventModel({ name, customerId, userId, accessCode })
         const data = await event.save()
         return data
     }
@@ -24,5 +24,9 @@ export class EventService {
     }
     async removeEvent(id, userId) {
         return await eventModel.deleteOne({ _id: id, userId })
+    }
+    async findByCode(code) {
+        const event = await eventModel.findOne({ accessCode: code })
+        return event
     }
 }

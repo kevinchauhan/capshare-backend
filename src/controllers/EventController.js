@@ -1,22 +1,41 @@
+import createHttpError from 'http-errors'
+
 export default class EventController {
-    constructor(eventService) {
+    constructor({ eventService, codeService }) {
         this.eventService = eventService
+        this.codeService = codeService
     }
     async register(req, res, next) {
         try {
             const { name, customerId } = req.body
+
+            let code
+            let isEvent = true
+            while (isEvent) {
+                code = this.codeService.generateCode()
+                const event = await this.eventService.findByCode(code)
+                if (!event) {
+                    isEvent = false
+                    break
+                }
+            }
+
             const event = await this.eventService.create({
                 name,
                 customerId,
                 userId: req.auth.sub,
+                accessCode: code,
             })
             res.status(201).json({
                 id: event._id,
                 name: event.name,
                 customerId: event.customerId,
+                accessCode: event.accessCode,
             })
         } catch (error) {
-            return next()
+            console.log(error)
+            const err = createHttpError(500, 'error while registering event')
+            return next(err)
         }
     }
     async findAll(req, res, next) {
