@@ -25,4 +25,8 @@ router.delete('/', authenticate, (req, res, next) => {
     eventController.remove(req, res, next)
 })
 
+router.post('/update/:eventId', authenticate, (req, res, next) =>
+    eventController.register(req, res, next),
+)
+
 export default router

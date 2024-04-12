@@ -66,4 +66,11 @@ export default class EventController {
             return next()
         }
     }
+    async update(req, res) {
+        // const folderId = req.params.folderid
+        const { eventId } = req.params
+        const data = req.body
+        const files = await this.eventService.update(eventId, data)
+        res.json({ data: files })
+    }
 }

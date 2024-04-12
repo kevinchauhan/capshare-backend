@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors'
 import eventModel from '../models/eventModel.js'
 import fileModel from '../models/fileModel.js'
 
@@ -31,5 +32,17 @@ export class EventService {
     async findByCode(code) {
         const event = await eventModel.findOne({ accessCode: code })
         return event
+    }
+    async update(eventId, data) {
+        try {
+            const files = await fileModel.findByIdAndUpdate(eventId, data)
+            return files
+        } catch (err) {
+            const error = createHttpError(
+                500,
+                'Failed to update data in database',
+            )
+            throw error
+        }
     }
 }
