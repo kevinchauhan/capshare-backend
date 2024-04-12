@@ -1,4 +1,5 @@
 import eventModel from '../models/eventModel.js'
+import fileModel from '../models/fileModel.js'
 
 export class EventService {
     async create({ name, customerId, userId, accessCode }) {
@@ -22,8 +23,10 @@ export class EventService {
             .select('-updatedAt -__v -createdAt')
         return event
     }
-    async removeEvent(id, userId) {
-        return await eventModel.deleteOne({ _id: id, userId })
+    async removeEvent(id) {
+        await eventModel.deleteOne({ _id: id })
+        await fileModel.deleteMany({ eventId: id })
+        return
     }
     async findByCode(code) {
         const event = await eventModel.findOne({ accessCode: code })

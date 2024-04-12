@@ -1,5 +1,7 @@
 import createHttpError from 'http-errors'
 import customerModel from '../models/customerModel.js'
+import eventModel from '../models/eventModel.js'
+import fileModel from '../models/fileModel.js'
 
 export class CustomerService {
     async create({ name, mobile, userId }) {
@@ -26,7 +28,10 @@ export class CustomerService {
     }
     async removeCustomer(id) {
         const query = { _id: id }
-        return await customerModel.deleteOne(query)
+        await customerModel.deleteOne(query)
+        await eventModel.deleteMany({ customerId: id })
+        await fileModel.deleteMany({ customerId: id })
+        return
     }
     async updateCustomer({ name, mobile, id }) {
         return await customerModel
