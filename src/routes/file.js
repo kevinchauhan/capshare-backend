@@ -15,6 +15,9 @@ router.get('/:eventid', (req, res, next) =>
 router.get('/select/:fileid', (req, res, next) =>
     fileController.update(req, res, next),
 )
+router.post('/completed/:eventId', (req, res, next) =>
+    fileController.eventCompleted(req, res, next),
+)
 
 // router.delete('/', authenticate, (req, res, next) => {
 //     folderController.remove(req, res, next)

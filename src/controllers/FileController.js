@@ -65,4 +65,12 @@ export default class FileController {
         const files = await this.fileService.update(fileid, data)
         res.json({ data: files })
     }
+    async eventCompleted(req, res) {
+        const { eventId } = req.params
+        const { isCompleted } = req.body
+        await this.fileService.eventCompleted(eventId, {
+            $set: { isCompleted },
+        })
+        res.json({ msg: 'success' })
+    }
 }
