@@ -25,7 +25,7 @@ router.delete('/', authenticate, (req, res, next) => {
     eventController.remove(req, res, next)
 })
 
-router.post('/update/:eventId', authenticate, (req, res, next) =>
+router.put('/update/:eventId', authenticate, (req, res, next) =>
     eventController.update(req, res, next),
 )
 
