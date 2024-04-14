@@ -34,7 +34,8 @@ jobs:
         runs-on: ubuntu-latest
         env:
             IMAGE_NAME: kevinchauhan/hackathon_backend
-            IMAGE_TAG: build-${{ github.run_number }}
+            # IMAGE_TAG: build-${{ github.run_number }}
+            IMAGE_TAG: build-latest
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         steps:
             - name: Checkout repository
