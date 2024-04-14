@@ -45,16 +45,16 @@ export class AuthController {
                 ...payload,
                 id: String(newRefreshToken.id),
             })
-            delete user.passowrd
+
             res.cookie('accessToken', accessToken, {
                 // domain: 'localhost',
-                sameSite: 'strict',
+                // sameSite: 'strict',
                 maxAge: 1000 * 60 * 60, // 1hr
                 httpOnly: true, // very important
             })
             res.cookie('refreshToken', refreshToken, {
                 // domain: 'localhost',
-                sameSite: 'strict',
+                // sameSite: 'strict',
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1y
                 httpOnly: true, // very important
             })
@@ -121,13 +121,13 @@ export class AuthController {
 
             res.cookie('accessToken', accessToken, {
                 // domain: 'localhost',
-                sameSite: 'strict',
+                // sameSite: 'strict',
                 maxAge: 1000 * 60 * 60, // 1hr
                 httpOnly: true, // very important
             })
             res.cookie('refreshToken', refreshToken, {
                 // domain: 'localhost',
-                sameSite: 'strict',
+                // sameSite: 'strict',
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1y
                 httpOnly: true, // very important
             })
@@ -157,7 +157,7 @@ export class AuthController {
             const accessToken = this.tokenService.generateAccessToken(payload)
             res.cookie('accessToken', accessToken, {
                 // domain: 'localhost',
-                sameSite: 'strict',
+                // sameSite: 'strict',
                 maxAge: 1000 * 60 * 60, // 1hr
                 httpOnly: true, // very important
             })
