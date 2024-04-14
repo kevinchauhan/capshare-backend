@@ -49,12 +49,14 @@ export class AuthController {
             res.cookie('accessToken', accessToken, {
                 // domain: 'localhost',
                 sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60, // 1hr
                 httpOnly: true, // very important
             })
             res.cookie('refreshToken', refreshToken, {
                 // domain: 'localhost',
                 sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1y
                 httpOnly: true, // very important
             })
@@ -122,12 +124,14 @@ export class AuthController {
             res.cookie('accessToken', accessToken, {
                 // domain: 'localhost',
                 sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60, // 1hr
                 httpOnly: true, // very important
             })
             res.cookie('refreshToken', refreshToken, {
                 // domain: 'localhost',
                 sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1y
                 httpOnly: true, // very important
             })
@@ -158,6 +162,7 @@ export class AuthController {
             res.cookie('accessToken', accessToken, {
                 // domain: 'localhost',
                 sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60, // 1hr
                 httpOnly: true, // very important
             })
