@@ -29,6 +29,7 @@ export class AuthController {
                 password,
                 studioname,
             })
+
             this.logger.info('user has been created', { id: user.id })
 
             const payload = {
@@ -44,7 +45,7 @@ export class AuthController {
                 ...payload,
                 id: String(newRefreshToken.id),
             })
-
+            delete user.passowrd
             res.cookie('accessToken', accessToken, {
                 // domain: 'localhost',
                 sameSite: 'strict',
