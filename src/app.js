@@ -4,6 +4,7 @@ import router from './routes/index.js'
 import connectDb from './config/dbConnection.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import path from 'path'
 import { Config } from './config/index.js'
 
 const app = express()
@@ -34,8 +35,7 @@ app.use('/file', router.file)
 // client routes
 app.use('/client', router.client)
 // image route
-app.use('/uploads', express.static('uploads'))
-
+app.use('/uploads', express.static(path.join(path.resolve(), 'uploads')))
 // error handler
 app.use(errorHandler)
 
