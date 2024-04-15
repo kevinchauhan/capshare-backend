@@ -176,8 +176,20 @@ export class AuthController {
     async logout(req, res, next) {
         try {
             await this.tokenService.deleteRefreshToken(req.auth.id)
-            res.clearCookie('refreshToken')
-            res.clearCookie('accessToken')
+            res.clearCookie('refreshToken', {
+                // domain: 'localhost',
+                sameSite: 'none',
+                secure: true,
+                maxAge: 1000 * 60 * 60, // 1hr
+                httpOnly: true, // very important
+            })
+            res.clearCookie('accessToken', {
+                // domain: 'localhost',
+                sameSite: 'none',
+                secure: true,
+                maxAge: 1000 * 60 * 60, // 1hr
+                httpOnly: true, // very important
+            })
             res.json({ msg: req.auth.id })
         } catch (error) {
             this.logger.error(error)
