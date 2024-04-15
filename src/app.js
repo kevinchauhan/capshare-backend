@@ -22,6 +22,12 @@ app.use(
 app.use(express.json())
 app.use(cookieParser())
 
+// routes
+app.get('/', (req, res) => {
+    res.json({
+        msg: 'Welcome to capshare backend service',
+    })
+})
 // auth routes
 app.use('/auth', router.auth)
 // customer routes
